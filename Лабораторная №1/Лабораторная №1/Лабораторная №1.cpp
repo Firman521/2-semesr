@@ -17,9 +17,7 @@ int main()
     {
 		cout << "1-Первая задача; 2-Вторая задача; 0-выход." << endl;
 		cin >> Nomer;
-		cout << Nomer << endl;
 		nomer = Nomer;
-		cout << nomer << endl;
 		if (Nomer > 2 || Nomer<0 || Nomer!=nomer) cout << "Вы выбрали не существующую задачу. Повторите выбор." << endl;
 
         if (Nomer == 1)
@@ -61,11 +59,12 @@ int main()
         {
 			ofstream F1;
 			int i, n = -1, m = 0, k = 0, v = 0, b = 0;
-			while (n < 0)//Проверка достоверности количества элементов.
+			while (n <= 0)//Проверка достоверности количества элементов.
 			{
 				cout << "Amount of elements: ";
 				cin >> n;
-				if (n < 0) cout << "Некоректный ввод, число должно быть целым и положительным." << endl;
+				cout << "Полученное число: " << n << endl;
+				if (n <= 0) cout << "Некоректный ввод, число должно быть целым и положительным." << endl;
 			}
 			while (v > b || v == b)//Проверка достоверности введенных данных.
 			{
@@ -137,7 +136,6 @@ void input(int a[], int n, int& m, int b, int v)
 		for (i = 0; i < n; i++)
 		{
 			a[i] = rand() % v+(b-v);
-			cout << a[i] << endl;
 			if (a[i] > 0) m += 1;
 		}
 	}
@@ -147,7 +145,6 @@ void input(int a[], int n, int& m, int b, int v)
 		{
 
 			a[i] = rand() % (b + abs(v))-abs(v);
-			cout << a[i] << endl;
 			if (a[i] > 0) m += 1;
 		}
 	}
@@ -157,7 +154,6 @@ void input(int a[], int n, int& m, int b, int v)
 		{
 
 			a[i] = rand() % (abs(v) - abs(b)) - abs(v);
-			cout << a[i] << endl;
 			if (a[i] > 0) m += 1;
 		}
 	}
@@ -167,7 +163,6 @@ void input(int a[], int n, int& m, int b, int v)
 		{
 
 			a[i] = rand() % b;
-			cout << a[i] << endl;
 			if (a[i] > 0) m += 1;
 		}
 	}
@@ -177,7 +172,6 @@ void input(int a[], int n, int& m, int b, int v)
 		{
 
 			a[i] = rand() % abs(v) - abs(v);
-			cout << a[i] << endl;
 			if (a[i] > 0) m += 1;
 		}
 	}
