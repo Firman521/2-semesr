@@ -12,7 +12,7 @@ int main()
 	int i, n = 0, m = 0, j = 0;
 	ifstream F1;
 	ofstream F2;
-	F2.open("itog.txt", ios::out);
+	F2.open("Nomer_1.txt", ios::out);
 	F1.open("mass.txt", ios::in);
 	while (!F1.eof())
 	{
