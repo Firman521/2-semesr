@@ -53,6 +53,7 @@ int main()
 			cout << "The program is complete" << endl;
 			F1.close();
 			F2.close();
+			delete[] a;
         }
 
         if (Nomer == 2)
@@ -107,6 +108,7 @@ int main()
 			}
 			F1.close();
 			cout << "The program is complete" << endl;
+			delete[] a;
         }
     }
 }
