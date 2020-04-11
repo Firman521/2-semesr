@@ -31,7 +31,7 @@ int main()
 	ifstream F1;
 	ifstream F2;
 	ofstream F3;
-	int i, n, m, j, k=0;
+	int i, n, m, j, k = 0, x;
 	cout << "Начало работы программы" << endl;
 	int** a;
 	int** b;
@@ -53,50 +53,73 @@ int main()
 	output_in(a, n, m);
 	cout << "Матрица B: " << endl;
 	output_in(b, n, m);
-	cout << "Произведение матрицы A на вектор: " << endl;
-	matri(a, c, New, n, m);
-	output_in(New, n, m);
-	cout << "Сумма двух матриц равна:" << endl;
-	Sum(a, b, New, n, m);
-	output_in(New, n, m);
-	if (n == m)
+	cout << "1-Суммирование матриц; 2-Произведение двух матриц; 3-Произведение матрицы на вектор;" << endl;
+	cout << "4-Транспонирование матрицы; 5- Найти номер первой строки, сумма элементов которой больше заданного числа;" << endl;
+	cout << "6- Переставить местами столбцы, содержащие первый максимальный и последний минимальный элементы соответственно;" << endl;
+	cout << "0- Выход из программы: " << endl;
+	cin >> x;
+	if (x == 0) return 0;
+	if (x == 3)
 	{
-		cout << "Произведение матрицы A на B: " << endl;
-		proizv(a, b, New, n, m);
+		cout << "Произведение матрицы A на вектор: " << endl;
+		matri(a, c, New, n, m);
 		output_in(New, n, m);
 	}
-	else cout << "Матрицы не возможно умножить!" << endl;
-	if (n == m)
+	if (x == 1)
 	{
-		cout << "1-транспонировать матрицу A и ответ записать в неё; 2-транспонировать матрицу A и результат записать в другоую матрицу:";
-		cin >> j;
-		if (j == 1)
+		cout << "Сумма двух матриц равна:" << endl;
+		Sum(a, b, New, n, m);
+		output_in(New, n, m);
+	}
+	if (x == 2)
+	{
+		if (n == m)
 		{
-			tra_in(a, n);
-			output_in(a, n, m);
-		}
-		if (j == 2)
-		{
-			tra_ou(a, n, New);
+			cout << "Произведение матрицы A на B: " << endl;
+			proizv(a, b, New, n, m);
 			output_in(New, n, m);
 		}
+		else cout << "Матрицы не возможно умножить!" << endl;
 	}
-	else
+	if (x == 4)
 	{
-		cout << "Не квадратная матрица" << endl;
-		delete[] New;
-		int** New;
-		New = new int* [m];
-		for (i = 0; i < m; i++)
+		if (n == m)
 		{
-			New[i] = new int[n];
+			cout << "1-транспонировать матрицу A и ответ записать в неё; 2-транспонировать матрицу A и результат записать в другоую матрицу:";
+			cin >> j;
+			if (j == 1)
+			{
+				tra_in(a, n);
+				output_in(a, n, m);
+			}
+			if (j == 2)
+			{
+				tra_ou(a, n, New);
+				output_in(New, n, m);
+			}
 		}
-		trans(a, New, n, m);
-		output_in(New, m, n);
+		else
+		{
+			cout << "Не квадратная матрица" << endl;
+			delete[] New;
+			int** New;
+			New = new int* [m];
+			for (i = 0; i < m; i++)
+			{
+				New[i] = new int[n];
+			}
+			trans(a, New, n, m);
+			output_in(New, m, n);
+		}
 	}
+	if (x == 5)
+	{
 		cout << "9 Вариант: " << endl;
 		cout << "1-е задание: " << endl;
 		zadanie1(a, n, m);
+	}
+	if (x == 6)
+	{
 		cout << "2-е задание: " << endl;
 		zadanie2(a, n, m, k);
 		if (k == 1)
@@ -104,6 +127,7 @@ int main()
 			cout << "Обмен строк." << endl;
 			output_in(a, n, m);
 		}
+	}
 	F1.close();
 }
 
