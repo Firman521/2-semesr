@@ -5,6 +5,7 @@
 #include <string.h>
 #include <cstring>
 #include <stdio.h> 
+#include <algorithm>
 
 using namespace std;
 
@@ -13,6 +14,8 @@ int palindrom(char* a);
 void menu();
 
 void kount(char* a);
+
+void hhhh(int &n, int &c);
 
 int main()
 {
@@ -43,7 +46,9 @@ int main()
             cin.ignore();
             int i;
             char* s = new char[100];
-            cout << "Vvedite stroky- ";
+            cout << "При использовании Русского языка, программа будет выдовать не верные результаты," << endl;
+            cout << "поэтому рекомендуется использовать латинский алфовит." << endl;
+            cout << "Введите строку - ";
             cin.getline(s, 255);
             if (palindrom(s)) cout << "Строка является Палиндромом!" << endl;
             else cout << "Строка не является Палиндромом!" << endl;
@@ -62,26 +67,121 @@ int main()
         }
         case 2: {
             cout << "Составляет предложения из заранее подготовленных слов." << endl;
-            cout << "Порядок слов:article, существительное, глагол, предлог, article и существительное. " << endl;
+            cout << "Порядок слов: article, существительное, глагол, предлог, article и существительное. " << endl;
             cin.clear();
             cin.ignore();
+            int arts, nos, ves, pres;
 
-            const char* art[] = { "the", "a", "one", "some", "any" };
-            int arts = sizeof(art) / sizeof(art[0]);
+            char* art[100];
+            {
+            ifstream  fin("art.txt");
+            if (!fin) {
+                cout << "ошибка открытия файла" << endl;
+                exit;
+            }
+            char* s = new char[100];
+            int size = 0;
+            int n;
+            while (!fin.eof())
+            {
+                fin.getline(s, 100, '\n');
+                char  seps[] = " ,;"; // Строка разделителей
+                char* token; // указатель на новой слово
+                token = strtok(s, seps);// находим первое слово
+                n = 0; //n - количество слов
+                while (token != NULL) {
+                    art[size] = token; size++;
+                    token = strtok(NULL, seps); n++;// выделяем следующее слово
+                }
+            }
+            //for (int i = 0; i < n; i++) cout << art[i] << " блин ";
+            arts = n;
+            cout << endl;
+        }
 
-            const char* no[] = { "boy", "girl", "cat", "city", "car" };
-            int nos = sizeof(no) / sizeof(no[0]);
+            char* no[100];// = { "boy", "girl", "cat", "city", "car" };
+            {
+                ifstream  fin("no.txt");
+                if (!fin) {
+                    cout << "ошибка открытия файла" << endl;
+                    exit;
+                }
+                char* s = new char[100];
+                int size = 0;
+                int n;
+                while (!fin.eof())
+                {
+                    fin.getline(s, 100, '\n');
+                    char  seps[] = " ,;"; // Строка разделителей
+                    char* token; // указатель на новой слово
+                    token = strtok(s, seps);// находим первое слово
+                    n = 0; //n - количество слов
+                    while (token != NULL) {
+                        no[size] = token; size++;
+                        token = strtok(NULL, seps); n++;// выделяем следующее слово
+                    }
+                }
+                //for (int i = 0; i < n; i++) cout << no[i] << " ";
+                nos = n;
+            }
 
-            const char* ve[] = { "drove", "worked", "ran", "walked", "write" };
-            int ves = sizeof(ve) / sizeof(ve[0]);
-
-            const char* pre[] = { "to", "from", "over", "under", "in" };
-            int pres = sizeof(pre) / sizeof(pre[0]);
+            char* ve[100];// = { "drove", "worked", "ran", "walked", "write" };
+            {
+                ifstream  fin("ve.txt");
+                if (!fin) {
+                    cout << "ошибка открытия файла" << endl;
+                    exit;
+                }
+                char* s = new char[100];
+                int size = 0;
+                int n;
+                while (!fin.eof())
+                {
+                    fin.getline(s, 100, '\n');
+                    char  seps[] = " ,;"; // Строка разделителей
+                    char* token; // указатель на новой слово
+                    token = strtok(s, seps);// находим первое слово
+                    n = 0; //n - количество слов
+                    while (token != NULL) {
+                        ve[size] = token; size++;
+                        token = strtok(NULL, seps); n++;// выделяем следующее слово
+                    }
+                }
+                //for (int i = 0; i < n; i++) cout << ve[i] << " ";
+                ves = n;
+            }
+ 
+            char* pre[100];// = { "to", "from", "over", "under", "in" };
+            //int pres = sizeof(pre) / sizeof(pre[0]);
+            {
+                ifstream  fin("pre.txt");
+                if (!fin) {
+                    cout << "ошибка открытия файла" << endl;
+                    exit;
+                }
+                char* s = new char[100];
+                int size = 0;
+                int n;
+                while (!fin.eof())
+                {
+                    fin.getline(s, 100, '\n');
+                    char  seps[] = " ,;"; // Строка разделителей
+                    char* token; // указатель на новой слово
+                    token = strtok(s, seps);// находим первое слово
+                    n = 0; //n - количество слов
+                    while (token != NULL) {
+                        pre[size] = token; size++;
+                        token = strtok(NULL, seps); n++;// выделяем следующее слово
+                    }
+                }
+                //for (int i = 0; i < n; i++) cout << pre[i] << " ";     
+                pres = n;
+            }
 
             int N;
             cout << "Количество предложений = ";
             cin >> N;
-
+            
             for (int i = 0; i < N; i++)
             {
                 const int max_N = 256;
@@ -91,6 +191,49 @@ int main()
                 cout << offer << endl;
             }
             cout << endl;
+            break;
+        }
+        case 5: {
+            cout << "В разработке! error _ _ _ _ _ _ 145 147 138 128" << endl;
+            break;
+        }
+        case 6: {
+            int n = 0, c = 0;
+            hhhh(n, c);
+            cout << " " << n << " Количество слов в строке: " << c << endl;
+            cout << endl;
+            break;
+        }
+        case 7: {
+            int n = 0, c = 0, k = 0;
+            int size = 0;
+            hhhh(n, c);
+            string arr[11], word;
+            char* s = new char[100];
+            ifstream  fin("text.txt");
+            if (!fin) {
+                cout << "ошибка открытия файла" << endl;
+                return 1;
+            }
+            while (!fin.eof())
+            {
+                fin.getline(s, 100, '\n');
+                k++;
+                char  seps[] = " ,.;!?"; // Строка разделителей
+                char* token; // указатель на новой слово
+                token = strtok(s, seps);// находим первое слово
+                
+            
+                while (token != NULL) {
+                    if (k == c) { arr[size++] = token; }
+                    token = strtok(NULL, seps); ;// выделяем следующее слово
+                }
+                
+            }
+
+            sort(arr, arr + size); // Сортируем 
+
+            for (int i = 0; i < size; i++) cout << arr[i] << endl;
             break;
         }
         }
@@ -103,6 +246,9 @@ void menu()
     cout << "2 - Задание 2" << endl;
     cout << "3 - Задание 3" << endl;
     cout << "4 - Задание 4" << endl;
+    cout << "5 - 8 вариант- 1 задание" << endl;
+    cout << "6 - 8 вариант- 2 задание" << endl;
+    cout << "7 - 8 вариант- 3 задание" << endl;
     cout << "0 - EXIT" << endl;
 }
 
@@ -121,25 +267,17 @@ int palindrom(char* a)
 
     bool t = 1;
     int j;
-    for (int i = 0, j = strlen(b) - 1; i < j;)
+    for (int i = 0, j = strlen(b) - 1; i < j; i++, j--)
     {
-        if (isalpha(b[i]))
+        if ((b[i]) != b[j])
         {
-            if (isalpha(a[j]))
-            {
-                if (tolower(b[i]) != tolower(b[j]))
-                {
-                    t = 0;
+            t = 0;
 
-                }
-                i++; j--;
-            }
-            else j--;
         }
-        else i++;
     }
     return t;
 }
+
 
 void kount(char* a)
 {
@@ -163,4 +301,27 @@ void kount(char* a)
        if (a[i]=='.'||a[i]=='!'||a[i]=='?') n++;
     }
     cout << "Количество предложений: " << n << endl;
+}
+
+void hhhh(int &n, int &c)
+{
+    char* s = new char[100];
+    ifstream  fin("text.txt");
+    if (!fin) {
+        cout << "ошибка открытия файла" << endl;
+        exit;
+    }
+    while (!fin.eof())
+    {
+        fin.getline(s, 100, '\n');
+        c++;
+        char  seps[] = " ,.;!?"; // Строка разделителей
+        char* token; // указатель на новой слово
+        token = strtok(s, seps);// находим первое слово
+        n = 0; //n - количество слов
+
+        while (token != NULL) {
+            token = strtok(NULL, seps); n++;// выделяем следующее слово
+        }
+    }
 }
