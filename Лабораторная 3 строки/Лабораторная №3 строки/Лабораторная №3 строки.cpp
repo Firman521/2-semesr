@@ -1,11 +1,12 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
 #include <fstream> 
 #include <string.h>
 #include <cstring>
 #include <stdio.h> 
-#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -18,6 +19,10 @@ void kount(char* a);
 void slov_v_stroke(int &n, int &c);
 
 void Chisloli(char* t);
+
+void sort(char** a, int size);
+
+void line(int a[], int n);
 
 int main()
 {
@@ -200,7 +205,7 @@ int main()
             int n;
             char* t = new char[20];
             char* s = new char[100];
-            ifstream  fin("nam 2.txt");
+            ifstream  fin("nam 3.txt");
             if (!fin) {
                 cout << "ошибка открытия файла" << endl;
                 exit;
@@ -208,7 +213,7 @@ int main()
             while (!fin.eof())
             {
                 fin.getline(s, 100, '\n');         
-                char  seps[] = " ,.;!?"; // Строка разделителей
+                char  seps[] = " ,;!?"; // Строка разделителей
                 char* token; // указатель на новой слово
                 token = strtok(s, seps);// находим первое слово
                 n = 0; //n - количество слов
@@ -232,7 +237,7 @@ int main()
             int n = 0, c = 0, k = 0;
             int size = 0;
             slov_v_stroke(n, c);
-            string arr[11], word;
+            char* arr[20];
             char* s = new char[100];
             ifstream  fin("text.txt");
             if (!fin) {
@@ -249,15 +254,22 @@ int main()
                 
             
                 while (token != NULL) {
-                    if (k == c) { arr[size++] = token; }
+                    if (k == c) { arr[size++] = token; /*tolower(arr[size][0]);*/ }
                     token = strtok(NULL, seps); ;// выделяем следующее слово
                 }
                 
             }
+            
+            sort(arr, size); // Сортируем 
 
-            sort(arr, arr + size); // Сортируем 
-
-            for (int i = 0; i < size; i++) cout << arr[i] << endl;
+            /*for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < strlen(arr[i]); j++)
+                {
+                    cout << arr[i][j];
+                }
+                cout << endl;
+            }*/
             break;
         }
         }
@@ -276,6 +288,13 @@ void menu()
     cout << "0 - EXIT" << endl;
 }
 
+/*
+Функция на вход получает символьный массив а.
+Функция предназначена для проверки, является ли введенная строка палиндромом или нет.
+Функция возвращает 1 или 0.
+1 - строка является палиндромом.
+0 - строа  не является палиндромом.
+*/
 int palindrom(char* a)
 {
     char* b = new char[100];
@@ -302,7 +321,10 @@ int palindrom(char* a)
     return t;
 }
 
-
+/*
+Функция на вход получает символьный массив а. 
+Функция используется для подсчёта количество слов и предложений в строке.
+*/
 void kount(char* a)
 {
     int i;
@@ -310,7 +332,6 @@ void kount(char* a)
     strcpy(b, a);
     
     char  seps[] = " ,.;!?";
-    char seps1[] = ".!?";
     char* token;
     token = strtok(b, seps);
     int n = 1; 
@@ -327,6 +348,11 @@ void kount(char* a)
     cout << "Количество предложений: " << n << endl;
 }
 
+/*
+Функция на вход получает переменные n и c.
+Переменная "n" считает количество слов в строке.
+Переменная "c" считает количество строк в текстовом файле.
+*/
 void slov_v_stroke(int &n, int &c)
 {
     char* s = new char[100];
@@ -350,18 +376,82 @@ void slov_v_stroke(int &n, int &c)
     }
 }
 
+/*
+Функция на вход получает символьный массив t.
+Функция предназначена для вроверки, является ли символ числом.
+И если символ является числом, тогда записать его как вещественное число.
+*/
 void Chisloli(char* t)
 {
     int n = 0, i;
-    float f = 0;
+    double c = 10;
+    double f = 0;
     n= strlen(t);
     for (i = 0; i < n; i++)
     {
-       //if (t[i] == '9' || t[i] == '8' || t[i] == '7' || t[i] == '6' || t[i] == '5' || t[i] == '4' || t[i] == '3' || t[i] == '2' || t[i] == '1' || t[i] == '0') f = f * 10 + (t[i]-48);
-        //cout << f << " ";
-        if ((t[i] <= '9') && (t[i] >= '0'))  f = f * 10 + (t[i]-48);// Вычитание по таблицу ASCII кода.
-       // cout << f << " ";
+        if ((t[i] <= '9') && (t[i] >= '0'))  f = f * 10 + (t[i]-48); // Вычитание по таблицу ASCII кода.
+        if (t[i] == '.')
+        {
+            
+            for (int j = i + 1; j < n; j++)
+            {
+                if ((t[j] <= '9') && (t[j] >= '0')) 
+                {
+                    double d = (t[j] - 48) / c;;
+                    f = f + d; c = c * 10;
+                }
+            }
+            if (t[0] == '-') f = f * (-1);
+            if (f != 0) printf("%.3f \n", f);
+            return;
+        }
     }
     if (t[0] == '-') f = f * (-1);
     if (f!=0) cout << f << endl;
+}
+
+void sort(char** a, int size)
+{
+    char  seps[] = " ";
+    int* b = new int[size];
+    for (int i = 0; i < size; i++)
+    {
+        if (isupper(a[i][0])) 
+        {
+            a[i][0] = tolower(a[i][0]);
+        }
+        int t = a[i][0];
+        b[i] = t;
+       // cout << (char)t << endl;
+        //cout << t << "  " << a[i] << endl;
+    }
+    line(b, size);
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+            if ((char)b[i] == a[j][0]) { cout << a[j] << endl; a[j] = seps; break; }
+    }
+}
+
+void line(int a[], int n)
+{
+    int i, j, min, mink = 0, t;
+    for (i = 0; i < n - 1; i++)
+    {
+        min = a[i];
+        for (j = i + 1; j < n; j++)
+        {
+            if (a[j] < min)
+            {
+                min = a[j];
+                mink = j;
+            }
+        }
+        if (a[i] > min)
+        {
+            t = a[i];
+            a[i] = a[mink];
+            a[mink] = t;
+        }
+    }
 }

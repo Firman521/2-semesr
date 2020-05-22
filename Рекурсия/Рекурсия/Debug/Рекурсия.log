@@ -1,0 +1,3 @@
+﻿  Рекурсия.cpp
+C:\Users\roman\source\repos\Рекурсия\Рекурсия\Рекурсия.cpp(155,15): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+  Рекурсия.vcxproj -> C:\Users\roman\source\repos\Рекурсия\Debug\Рекурсия.exe
